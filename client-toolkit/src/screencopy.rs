@@ -256,7 +256,14 @@ where
                     .push((format, modifiers));
             }
             zcosmic_screencopy_session_v2::Event::Done => {
-                app_data.init_done(conn, qh, session, &*formats.lock().unwrap());
+
+                let formats = formats.lock().unwrap();
+                println!("Buffer size: {:?}", formats.buffer_size);
+                println!("SHM formats: {:?}", formats.shm_formats);
+                println!("DMA-BUF device: {:?}", formats.dmabuf_device);
+                println!("DMA-BUF formats: {:?}", formats.dmabuf_formats);
+
+                app_data.init_done(conn, qh, session, &*formats);
             }
             zcosmic_screencopy_session_v2::Event::Stopped => {
                 app_data.stopped(conn, qh, session);
